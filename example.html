@@ -1,0 +1,40 @@
+<html>
+<head>
+    <title>Heatmap Example</title>
+    <meta charset="UTF-8">
+
+    <!-- Hand over the configuration from JSP to the Javascript -->
+    <script>
+        // Hand over configuration from JSP to Javascript
+        window.heatmap = {};
+
+        // Title for the graph.
+        window.heatmap.title = "Sample dates";
+
+        // The endpoint which will be called with a GET-request.
+        // Should return a JSON Object with a "dates" array of unix timestamps.
+        window.heatmap.dataUrl = "http://localhost:8000/example/dates.json";
+
+        // We will use these months an as example in the next function...
+        const months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+
+        // A function which will be called with a Date as input. Should return a URL generated from the date.
+        window.heatmap.generateLink = function(d) {
+            if (!d)     // Handle empty dates.
+                return;
+
+            const dateWithLeadingZero = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
+            const dateString = months[d.getMonth()] + "-" + dateWithLeadingZero;
+
+            return "http://www.historynet.com/today-in-history/" + dateString;     // What happened in history on date?
+        };
+    </script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="app"></div>
+    </div>
+    <script src="dist/bundle.js"></script>
+</body>
+</html>
